@@ -1,0 +1,23 @@
+.road-card {
+  background: rgba(255,255,255,0.15);
+  padding: 18px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.road-card:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.road-card h3 {
+  margin: 0;
+  color: white;
+}
+
+.road-card p {
+  margin-top: 6px;
+  color: rgba(255,255,255,0.8);
+}
