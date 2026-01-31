@@ -1,11 +1,14 @@
+import { useState } from "react";
 import RoadCard from "./RoadCard";
 import RoadDetail from "./RoadDetail";
-import React from "react";
 
 
-export default function RoadList({ roads }) {
 
-  const [openId, setOpenId] = React.useState(null);
+export default function RoadList({ roads, onSelect }) {
+
+
+  const [openId, setOpenId] = useState(null);
+
 
   return (
     <div className="roads">
@@ -14,9 +17,12 @@ export default function RoadList({ roads }) {
         <div key={road.id}>
 
           {/* Road card */}
-          <div onClick={() => 
-            setOpenId(openId === road.id ? null : road.id)
-          }>
+          <div 
+          onClick={() => {
+            setOpenId(openId === road.id ? null : road.id);
+            onSelect(road);
+            }}>
+
             <RoadCard 
               title={road.title} 
               desc={road.desc} 
@@ -25,7 +31,8 @@ export default function RoadList({ roads }) {
 
           {/* Detail directly under clicked road */}
           {openId === road.id && (
-            <RoadDetail road={road} />
+            <RoadDetail road={road}/>
+
           )}
 
         </div>
@@ -34,3 +41,25 @@ export default function RoadList({ roads }) {
     </div>
   );
 }
+// import RoadCard from "./RoadCard";
+
+// export default function RoadList({ roads, onSelect }) {
+
+//   return (
+//     <div className="road-list">
+
+//       {roads.map(road => (
+//         <div 
+//           key={road.id}
+//           onClick={() => onSelect(road)}
+//         >
+//           <RoadCard 
+//             title={road.title}
+//             desc={road.desc}
+//           />
+//         </div>
+//       ))}
+
+//     </div>
+//   );
+// }

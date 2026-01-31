@@ -1,10 +1,31 @@
+
+
+// const tags = ["overview", "accidents", "public transport", "potholes"];
+
+// export default function FilterTags({ active, setActive }) {
+//   return (
+//     <div className="filters">
+//       {tags.map(tag => (
+//         <button
+//           key={tag}
+//           className={`tag ${active === tag ? "active" : ""}`}
+//           onClick={() => setActive(tag)}
+//         >
+//           #{tag}
+//         </button>
+//       ))}
+//     </div>
+//   );
+// }
+
 import "./FilterTags.css";
 
-const tags = ["overview", "accidents", "public transport", "potholes"];
-
 export default function FilterTags({ active, setActive }) {
+
+  const tags = ["overview", "accidents", "public transport", "potholes", "user_added"];
+
   return (
-    <div className="filters">
+    <div className="filter-tags">
       {tags.map(tag => (
         <button
           key={tag}
@@ -17,3 +38,4 @@ export default function FilterTags({ active, setActive }) {
     </div>
   );
 }
+

@@ -1,6 +1,7 @@
-export default function RoadDetail({ road }) {
 
-  if (!road) return null;
+import MapView from "./MapView";
+
+export default function RoadDetail({ road }) {
 
   return (
     <div className="detail-card">
@@ -16,10 +17,36 @@ export default function RoadDetail({ road }) {
       <p className="label">HODORA Score</p>
       <p>{road.score}</p>
 
-      <div className="map-preview">
-        Map will be displayed here
-      </div>
+      {/* MAP HERE 👇 */}
+      <MapView
+        lat={road.latitude}
+        lon={road.longitude}
+        road={road.title}
+      />
 
     </div>
   );
 }
+
+// import MapView from "./MapView";
+
+// export default function RoadDetail({ road, allRoads }) {
+
+//   return (
+//     <div className="detail-card">
+
+//       <h2>{road.title}</h2>
+
+//       <p>{road.location}</p>
+//       <p>{road.score}</p>
+
+//       <MapView
+//         lat={road.latitude}
+//         lon={road.longitude}
+//         road={road.title}
+//         allRoads={allRoads}
+//       />
+
+//     </div>
+//   );
+// }

@@ -1,15 +1,24 @@
-.filters {
+.filter-tags {
   margin: 20px 0;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
+/* each tag button */
 .tag {
   padding: 8px 16px;
   border-radius: 20px;
   border: none;
-  margin-right: 10px;
   background: rgba(255,255,255,0.2);
   color: white;
   cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.tag:hover {
+  background: rgba(255,255,255,0.3);
 }
 
 .tag.active {
