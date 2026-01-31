@@ -24,3 +24,27 @@
 .tag.active {
   background: #4da3ff;
 }
+.tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tags button {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tags button:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+.tags button.active {
+  background: #4da3ff;
+  box-shadow: 0 0 12px rgba(77,163,255,0.8);
+}

@@ -154,7 +154,9 @@ export default function Dashboard() {
 
   const [mapCenter, setMapCenter] = useState([12.9716, 77.5946]);
 
-  // quick city coords
+  const [loading, setLoading] = useState(false);   // 👈 LOADING STATE
+
+  // Quick city coordinates
   const cityCoords = {
     bengaluru: [12.9716, 77.5946],
     mysuru: [12.2958, 76.6394],
@@ -165,6 +167,8 @@ export default function Dashboard() {
   // ================= FETCH ISSUES =================
 
   const loadIssues = (city = "BENGALURU") => {
+
+    setLoading(true);
 
     fetch(`http://localhost:5000/issues/city/${city}`)
       .then(res => res.json())
@@ -183,7 +187,9 @@ export default function Dashboard() {
         }));
 
         setRoads(formatted);
-      });
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   };
 
   // ================= FETCH CITY STATS =================
@@ -205,8 +211,12 @@ export default function Dashboard() {
     loadIssues("BENGALURU");
     loadCityStats();
   }, []);
+  useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, [activeTag]);
 
-  // ================= SEARCH HANDLER =================
+
+  // ================= SEARCH =================
 
   const handleSearch = () => {
 
@@ -278,11 +288,23 @@ export default function Dashboard() {
           setActive={setActiveTag} 
         />
 
-        {/* ROADS */}
-        <RoadList 
-          roads={filteredRoads}
-          onSelect={setSelectedRoad}
-        />
+        {/* LOADING */}
+        {loading && (
+          <div className="loader">Loading data...</div>
+        )}
+
+        {/* NO DATA */}
+        {!loading && filteredRoads.length === 0 && (
+          <p className="no-data">No issues found for this city</p>
+        )}
+
+        {/* ROAD LIST */}
+        {!loading && filteredRoads.length > 0 && (
+          <RoadList 
+            roads={filteredRoads}
+            onSelect={setSelectedRoad}
+          />
+        )}
 
         {/* MAP */}
         <MapView
@@ -301,7 +323,7 @@ export default function Dashboard() {
         +
       </div>
 
-      {/* ADD ISSUE */}
+      {/* ADD ISSUE MODAL */}
       {showAdd && (
         <AddIssue 
           onClose={() => setShowAdd(false)}
