@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bg from "../assets/back.png";
 import "./Auth.css";
+import logo from "./../assets/hydora.png";
 
 export default function Login() {
 
@@ -20,7 +21,7 @@ export default function Login() {
     const data = await res.json();
 
     if (res.ok) {
-      navigate("/dashboard");
+      navigate("/home");
     } else {
       alert(data.msg);
     }
@@ -32,6 +33,10 @@ export default function Login() {
       style={{ backgroundImage: `url(${bg})` }}
     >
       <div className="auth-box">
+
+        
+        <img src={logo} className="logo" />
+
 
         <h2>Login</h2>
 
@@ -52,8 +57,11 @@ export default function Login() {
           LOGIN
         </button>
 
-        <p onClick={() => navigate("/signup")} className="link">
-          Sign up
+        <p
+        className="link"
+        onClick={() => navigate("/signup")}
+        >
+        New user? <span>Sign up</span>
         </p>
 
       </div>

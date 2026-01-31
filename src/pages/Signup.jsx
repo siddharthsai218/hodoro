@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "./../assets/hydora.png";
+import bg from "../assets/back.png";
 
 export default function Signup() {
 
@@ -32,7 +34,15 @@ export default function Signup() {
   };
 
   return (
-    <div className="auth-box">
+    <div 
+    className="auth-page"
+    style={{ backgroundImage: `url(${bg})` }}
+    >
+        <div className="auth-box">
+
+        <img src={logo} className="logo" />
+
+        <h2>Get started Now</h2>
 
       <input 
         placeholder="Username"
@@ -53,10 +63,17 @@ export default function Signup() {
         onChange={e => setPassword(e.target.value)}
       />
 
-      <button onClick={handleSignup}>
+        <button onClick={handleSignup}>
         SIGN UP
-      </button>
+        </button>
 
+        <p 
+        className="link"
+        onClick={() => navigate("/login")}
+        >
+        Already a user? <span>Sign in</span>
+        </p>
+        </div>
     </div>
   );
 }

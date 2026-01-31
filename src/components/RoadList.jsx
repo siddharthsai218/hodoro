@@ -26,6 +26,7 @@ export default function RoadList({ roads, onSelect }) {
             <RoadCard 
               title={road.title} 
               desc={road.desc} 
+              score={road.score}
             />
           </div>
 

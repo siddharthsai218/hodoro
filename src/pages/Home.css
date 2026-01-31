@@ -1,0 +1,36 @@
+.home-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 40px;
+  color: white;
+}
+
+.title {
+  margin-top: 40px;
+  font-size: 32px;
+  text-align: center;
+  color: white;
+}
+
+.state-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.background-map {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.home-container {
+  position: relative;
+  z-index: 1;
+}
+
+.karnataka{
+    text-decoration: none;
+    color: white;
+}

@@ -133,16 +133,13 @@
 //     </div>
 //   );
 // }
-
-
 import { useState, useEffect } from "react";
 
 import FilterTags from "../components/FilterTags";
 import RoadList from "../components/RoadList";
 import MapView from "../components/MapView";
-import AddIssue from "../components/AddIssue";
+import AddIssue from "../components/Addissue";
 
-import bg from "../assets/back.png";
 import "./Dashboard.css";
 
 export default function Dashboard() {
@@ -152,12 +149,24 @@ export default function Dashboard() {
   const [selectedRoad, setSelectedRoad] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
 
-  // ==========================
-  // Fetch issues from backend
-  // ==========================
+  const [query, setQuery] = useState("BENGALURU");
+  const [cityStats, setCityStats] = useState(null);
 
-  const loadIssues = () => {
-    fetch("http://localhost:5000/issues/city/BENGALURU")
+  const [mapCenter, setMapCenter] = useState([12.9716, 77.5946]);
+
+  // quick city coords
+  const cityCoords = {
+    bengaluru: [12.9716, 77.5946],
+    mysuru: [12.2958, 76.6394],
+    hyderabad: [17.3850, 78.4867],
+    chennai: [13.0827, 80.2707]
+  };
+
+  // ================= FETCH ISSUES =================
+
+  const loadIssues = (city = "BENGALURU") => {
+
+    fetch(`http://localhost:5000/issues/city/${city}`)
       .then(res => res.json())
       .then(data => {
 
@@ -165,80 +174,126 @@ export default function Dashboard() {
           id: item.id || index,
           title: item.road || "Unknown Road",
           desc: item.tags || "Issue reported",
-
-          // 👇 THIS POWERS FILTERING
           tag: item.tags || "overview",
-
           date: "N/A",
           location: `${item.city}, ${item.state}`,
-          score: item.vehicles ? `${item.vehicles}/10` : "N/A",
-
+          score: item.vehicles ? `${item.vehicles}` : "0",
           latitude: Number(item.latitude),
           longitude: Number(item.longitude)
         }));
 
         setRoads(formatted);
-      })
-      .catch(err => console.log("Error:", err));
+      });
+  };
+
+  // ================= FETCH CITY STATS =================
+
+  const loadCityStats = () => {
+    fetch("http://localhost:5000/analytics/risk")
+      .then(res => res.json())
+      .then(data => {
+
+        const city = data.find(
+          d => d.district?.toLowerCase().includes(query.toLowerCase())
+        );
+
+        setCityStats(city || null);
+      });
   };
 
   useEffect(() => {
-    loadIssues();
+    loadIssues("BENGALURU");
+    loadCityStats();
   }, []);
 
-  // ==========================
-  // Tag Filtering Logic
-  // ==========================
+  // ================= SEARCH HANDLER =================
 
-  const filteredRoads =
-    activeTag === "overview"
-      ? roads
-      : roads.filter(r =>
-          r.tag.toLowerCase().includes(activeTag)
-        );
+  const handleSearch = () => {
 
-  // ==========================
-  // UI
-  // ==========================
+    loadIssues(query);
+    loadCityStats();
+
+    const city = query.toLowerCase();
+
+    if (cityCoords[city]) {
+      setMapCenter(cityCoords[city]);
+    }
+
+    setSelectedRoad(null);
+  };
+
+  // ================= FILTER + SORT =================
+
+  const filteredRoads = roads
+    .filter(r => {
+
+      if (activeTag === "overview") return true;
+
+      const tag = r.tag.toLowerCase();
+
+      if (activeTag === "accidents") return tag.includes("accident");
+      if (activeTag === "potholes") return tag.includes("pothole");
+      if (activeTag === "public transport") return tag.includes("public");
+      if (activeTag === "user_added") return tag.includes("user");
+
+      return true;
+    })
+    .sort((a, b) => {
+
+      if (activeTag === "overview") {
+        return (parseFloat(b.score) || 0) - (parseFloat(a.score) || 0);
+      }
+
+      return 0;
+    });
+
+  // ================= UI =================
 
   return (
-    <div
-      className="dashboard-bg"
-      style={{ backgroundImage: `url(${bg})` }}
-    >
+    <>
 
       <div className="dashboard-panel">
 
-        {/* Search bar (future use) */}
-        <input 
-          className="search-bar" 
-          placeholder="Search location..." 
+        {/* SEARCH */}
+        <input
+          className="search-bar"
+          placeholder="Search city..."
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && handleSearch()}
         />
 
-        {/* Filter Tags */}
+        {/* CITY STATS */}
+        {cityStats && (
+          <div className="stats-card">
+            <h3>{cityStats.district}</h3>
+            <p>Total Accidents: {cityStats.total_accidents}</p>
+            <p>Risk Score: {cityStats.risk_score}</p>
+          </div>
+        )}
+
+        {/* TAGS */}
         <FilterTags 
           active={activeTag} 
           setActive={setActiveTag} 
         />
 
-        {/* Road List */}
+        {/* ROADS */}
         <RoadList 
           roads={filteredRoads}
           onSelect={setSelectedRoad}
         />
 
-        {/* Map section */}
-        {selectedRoad && (
-          <MapView
-            lat={selectedRoad.latitude}
-            lon={selectedRoad.longitude}
-            road={selectedRoad.title}
-          />
-        )}
+        {/* MAP */}
+        <MapView
+          lat={selectedRoad ? selectedRoad.latitude : mapCenter[0]}
+          lon={selectedRoad ? selectedRoad.longitude : mapCenter[1]}
+          road={selectedRoad?.title || query}
+        />
 
       </div>
 
-      {/* Floating + button */}
+      {/* + BUTTON */}
       <div 
         className="add-btn"
         onClick={() => setShowAdd(true)}
@@ -246,14 +301,14 @@ export default function Dashboard() {
         +
       </div>
 
-      {/* Add issue modal */}
+      {/* ADD ISSUE */}
       {showAdd && (
         <AddIssue 
           onClose={() => setShowAdd(false)}
-          onAdded={loadIssues}
+          onAdded={() => loadIssues(query)}
         />
       )}
 
-    </div>
+    </>
   );
 }

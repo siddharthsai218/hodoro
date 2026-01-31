@@ -10,6 +10,11 @@ body {
   background-image: url("assets/back.png");
   color: white;
 }
+body {
+  margin: 0;
+  background: url("/src/assets/back.png") no-repeat center center fixed;
+  background-size: cover;
+}
 
 /* Background */
 .map-bg {
