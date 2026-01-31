@@ -154,9 +154,7 @@ export default function Dashboard() {
 
   const [mapCenter, setMapCenter] = useState([12.9716, 77.5946]);
 
-  const [loading, setLoading] = useState(false);   // 👈 LOADING STATE
-
-  // Quick city coordinates
+  const [loading, setLoading] = useState(false);  
   const cityCoords = {
     bengaluru: [12.9716, 77.5946],
     mysuru: [12.2958, 76.6394],
@@ -278,7 +276,7 @@ export default function Dashboard() {
           <div className="stats-card">
             <h3>{cityStats.district}</h3>
             <p>Total Accidents: {cityStats.total_accidents}</p>
-            <p>Risk Score: {cityStats.risk_score}</p>
+            
           </div>
         )}
 
