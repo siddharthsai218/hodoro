@@ -1,0 +1,53 @@
+.risk-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.risk-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.risk-form input {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+}
+
+.risk-form button {
+  padding: 12px 18px;
+  background: #0d6efd;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.risk-result {
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  min-width: 250px;
+}
+
+/* COLORS BASED ON RISK */
+
+.risk-result.low {
+  background: rgba(0,255,0,0.2);
+  border: 2px solid #00ff00;
+}
+
+.risk-result.medium {
+  background: rgba(255,165,0,0.2);
+  border: 2px solid orange;
+}
+
+.risk-result.high {
+  background: rgba(255,0,0,0.2);
+  border: 2px solid red;
+}

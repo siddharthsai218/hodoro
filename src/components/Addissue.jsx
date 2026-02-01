@@ -32,8 +32,8 @@ export default function AddIssue({ onClose, onAdded }) {
       .then(res => res.json())
       .then(() => {
         setLoading(false);
-        onAdded();   // refresh dashboard
-        onClose();   // close modal
+        onAdded();    
+        onClose();   
       });
 
     });

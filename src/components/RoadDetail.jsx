@@ -17,7 +17,7 @@ export default function RoadDetail({ road }) {
       <p className="label">HODORA Score</p>
       <p>{road.score}</p>
 
-      {/* MAP HERE 👇 */}
+      
       <MapView
         lat={road.latitude}
         lon={road.longitude}
@@ -28,25 +28,4 @@ export default function RoadDetail({ road }) {
   );
 }
 
-// import MapView from "./MapView";
 
-// export default function RoadDetail({ road, allRoads }) {
-
-//   return (
-//     <div className="detail-card">
-
-//       <h2>{road.title}</h2>
-
-//       <p>{road.location}</p>
-//       <p>{road.score}</p>
-
-//       <MapView
-//         lat={road.latitude}
-//         lon={road.longitude}
-//         road={road.title}
-//         allRoads={allRoads}
-//       />
-
-//     </div>
-//   );
-// }

@@ -1,13 +1,41 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import "leaflet.heat";
+import { useEffect, useRef } from "react";
 
-export default function MapView({ lat, lon, road }) {
+function HeatLayer({ points }) {
+  const map = useMap();
+  const heatRef = useRef(null);
+
+  useEffect(() => {
+    if (!points || points.length === 0) return;
+
+    if (heatRef.current) {
+      map.removeLayer(heatRef.current);
+    }
+
+    heatRef.current = L.heatLayer(points, {
+      radius: 45,
+      blur: 30,
+      maxZoom: 17,
+      max: 1
+    }).addTo(map);
+
+  }, [points, map]);
+
+  return null;
+}
+
+export default function MapView({ lat, lon, road, heatPoints }) {
+
   if (!lat || !lon) return null;
 
   return (
     <MapContainer
       center={[lat, lon]}
-      zoom={15}
-      style={{ height: "250px", width: "100%", borderRadius: "12px" }}
+      zoom={11}
+      style={{ height: "350px", width: "100%", borderRadius: "12px" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -16,43 +44,8 @@ export default function MapView({ lat, lon, road }) {
       <Marker position={[lat, lon]}>
         <Popup>{road}</Popup>
       </Marker>
+
+      <HeatLayer points={heatPoints} />
     </MapContainer>
   );
 }
-
-// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-// import "leaflet/dist/leaflet.css";
-
-// export default function MapView({ lat, lon, road, allRoads }) {
-
-//   return (
-//     <div style={{ height: "300px", marginTop: "20px", borderRadius: "12px", overflow: "hidden" }}>
-      
-//       <MapContainer 
-//         center={[lat, lon]} 
-//         zoom={13} 
-//         style={{ height: "100%", width: "100%" }}
-//       >
-
-//         <TileLayer
-//           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//         />
-
-//         {/* All accident markers */}
-//         {allRoads.map(r => (
-//           <Marker 
-//             key={r.id} 
-//             position={[r.latitude, r.longitude]}
-//           >
-//             <Popup>
-//               <strong>{r.title}</strong><br/>
-//               {r.desc}
-//             </Popup>
-//           </Marker>
-//         ))}
-
-//       </MapContainer>
-
-//     </div>
-//   );
-// }

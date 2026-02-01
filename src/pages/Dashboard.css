@@ -185,3 +185,35 @@ body {
   z-index: 0 !important;
 }
 
+.location-btn {
+  align-self: center;
+  margin-top: 20px;
+  padding: 12px 28px;
+  border-radius: 30px;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #1e90ff, #4facfe);
+  box-shadow: 0 0 15px rgba(79,172,254,0.6);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.location-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(79,172,254,0.9);
+}
+
+.loader {
+  text-align: center;
+  color: white;
+  margin: 20px;
+}
+
+.no-data {
+  text-align: center;
+  color: rgba(255,255,255,0.7);
+}

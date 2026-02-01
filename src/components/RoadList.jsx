@@ -16,7 +16,7 @@ export default function RoadList({ roads, onSelect }) {
       {roads.map(road => (
         <div key={road.id}>
 
-          {/* Road card */}
+          
           <div 
           onClick={() => {
             setOpenId(openId === road.id ? null : road.id);
@@ -30,7 +30,7 @@ export default function RoadList({ roads, onSelect }) {
             />
           </div>
 
-          {/* Detail directly under clicked road */}
+          
           {openId === road.id && (
             <RoadDetail road={road}/>
 
@@ -42,25 +42,3 @@ export default function RoadList({ roads, onSelect }) {
     </div>
   );
 }
-// import RoadCard from "./RoadCard";
-
-// export default function RoadList({ roads, onSelect }) {
-
-//   return (
-//     <div className="road-list">
-
-//       {roads.map(road => (
-//         <div 
-//           key={road.id}
-//           onClick={() => onSelect(road)}
-//         >
-//           <RoadCard 
-//             title={road.title}
-//             desc={road.desc}
-//           />
-//         </div>
-//       ))}
-
-//     </div>
-//   );
-// }

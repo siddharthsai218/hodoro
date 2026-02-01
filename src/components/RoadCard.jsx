@@ -4,10 +4,10 @@ export default function RoadCard({ title, desc, score }) {
 
   const risk = parseFloat(score) || 0;
 
-  let color = "#2ecc71"; // green
+  let color = "#2ecc71"; // 
 
-  if (risk > 7) color = "#e74c3c";     // red
-  else if (risk > 4) color = "#f39c12"; // orange
+  if (risk > 7) color = "#e74c3c";     // 
+  else if (risk > 4) color = "#f39c12"; // 
 
   return (
     <div 
